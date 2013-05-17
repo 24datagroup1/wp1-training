@@ -46,9 +46,12 @@
 <header id="masthead" class="site-header" role="banner">
 	<div class="container center">
 	
-		<nav role="navigation" class="site-navigation main-navigation">
-			<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); // Display the user-defined menu in Appearance > Menus ?>
-		</nav><!-- .site-navigation .main-navigation -->
+		<!--<nav role="navigation" class="site-navigation main-navigation">
+			<?php // wp_nav_menu( array( 'theme_location' => 'primary' ) ); // Display the user-defined menu in Appearance > Menus ?>
+		</nav>--><!-- .site-navigation .main-navigation -->
+        
+        <?php if (has_nav_menu('secondary')) { ?><nav class="navbar"><?php wp_nav_menu( array( 'theme_location' => 'secondary', 'container_class' => 'navbar-inner', 'menu_class' => 'nav' ) ); ?></nav> <?php } ?>
+        
 	</div>
 	<div class="center">
 
@@ -56,11 +59,16 @@
 			<h1 class="site-title">
 				<a href="<?php echo esc_url( home_url( '/' ) ); // Link to the home page ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); // Title it with the blog name ?>" rel="home"><?php bloginfo( 'name' ); // Display the blog name ?></a>
 			</h1>
+            <p>John M. Was Here!!!</p>
 			<h4 class="site-description">
 				<?php bloginfo( 'description' ); // Display the blog description, found in General Settings ?>
 			</h4>
 		</div><!-- /brand -->
-		
+			<?php if ( of_get_option( 'toparea_checkbox' ) ) : ?>
+				<div id="top-area"><?php if ( of_get_option( 'toparea_text' ) ) : ?></div>
+                	<?php echo of_get_option( 'toparea_text' ) ?>
+				<?php endif; ?>
+			<?php endif; ?>
 		<div class="clear"></div>
 	</div><!--/container -->
 		

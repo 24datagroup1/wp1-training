@@ -23,6 +23,13 @@ register_nav_menus(
 		// just change the 'primary' to another name
 	)
 );
+register_nav_menus( 
+	array(
+		'secondary'	=>	__( 'Secondary Menu', 'naked' ), // Register the Primary menu
+		// Copy and paste the line above right here if you want to make another menu, 
+		// just change the 'primary' to another name
+	)
+);
 
 /*-----------------------------------------------------------------------------------*/
 /* Activate sidebar for Wordpress use
@@ -52,12 +59,51 @@ function naked_scripts()  {
 
 	// get the theme directory style.css and link to it in the header
 	wp_enqueue_style( 'naked-style', get_template_directory_uri() . '/style.css', '10000', 'all' );
-			
 	// add fitvid
 	wp_enqueue_script( 'naked-fitvid', get_template_directory_uri() . '/js/jquery.fitvids.js', array( 'jquery' ), NAKED_VERSION, true );
-	
 	// add theme scripts
 	wp_enqueue_script( 'naked', get_template_directory_uri() . '/js/theme.min.js', array(), NAKED_VERSION, true );
-  
+	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ), true );
 }
 add_action( 'wp_enqueue_scripts', 'naked_scripts' ); // Register this fxn and allow Wordpress to call it automatcally in the header
+
+
+/* 
+ * Loads the Options Panel
+ *
+ * If you're loading from a child theme use stylesheet_directory
+ * instead of template_directory
+ */
+ 
+if ( !function_exists( 'optionsframework_init' ) ) {
+	define( 'OPTIONS_FRAMEWORK_DIRECTORY', get_template_directory_uri() . '/inc/' );
+	require_once dirname( __FILE__ ) . '/inc/options-framework.php';
+}
+
+/* 
+ * This is an example of how to add custom scripts to the options panel.
+ * This one shows/hides the an option when a checkbox is clicked.
+ *
+ * You can delete it if you not using that option
+ */
+
+add_action('optionsframework_custom_scripts', 'optionsframework_custom_scripts');
+
+function optionsframework_custom_scripts() { ?>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+
+	jQuery('#example_showhidden').click(function() {
+  		jQuery('#section-example_text_hidden').fadeToggle(400);
+	});
+	
+	if (jQuery('#example_showhidden:checked').val() !== undefined) {
+		jQuery('#section-example_text_hidden').show();
+	}
+	
+});
+</script>
+ 
+<?php
+}
